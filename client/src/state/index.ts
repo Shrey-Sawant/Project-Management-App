@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 export interface initialStateTypes {
   isSidebarCollapsed: boolean;
@@ -8,7 +7,7 @@ export interface initialStateTypes {
 
 const initialState: initialStateTypes = {
   isSidebarCollapsed: false,
-  isDarkMode: false,
+  isDarkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
 };
 
 export const globalSlice = createSlice({
