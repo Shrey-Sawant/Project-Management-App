@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-import { Home, LockIcon, LucideIcon, X } from "lucide-react";
+import { Briefcase, Home, LockIcon, LucideIcon, Search, Settings, User, Users, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,6 +20,7 @@ const Sidebar = () => {
   const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl 
   transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white
   ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}`;
+
   return (
     <div className={sidebarClassNames}>
       <div className="flex h-[100%] w-full flex-col justify-start">
@@ -28,9 +29,14 @@ const Sidebar = () => {
           <div className="text-xl font-bold text-gray-800 dark:text-white">
             EDLIST
           </div>
-          {isSidebarCollapsed ? null :(
-            <button className="py-3 " onClick={()=> {dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}}>
-            <X className="h-6 w-6 text-gray-100 hover:text-gray-500 dark:text-white" />
+          {isSidebarCollapsed ? null : (
+            <button
+              className="py-3"
+              onClick={() => {
+                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+              }}
+            >
+              <X className="h-6 w-6 text-gray-100 hover:text-gray-500 dark:text-white" />
             </button>
           )}
         </div>
@@ -51,6 +57,11 @@ const Sidebar = () => {
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />
+          <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
+          <SidebarLink icon={Search} label="Search" href="/search" />
+          <SidebarLink icon={Settings} label="Settings" href="/settings" />
+          <SidebarLink icon={User} label="Users" href="/users" />
+          <SidebarLink icon={Users} label="Teams" href="/teams" />
         </nav>
       </div>
     </div>
@@ -61,24 +72,16 @@ interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  // isCollapsed: boolean;
 }
 
 const SidebarLink = ({
   href,
   icon: Icon,
   label,
-  // isCollapsed,
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
-  const screenWidth = window.innerWidth;
-
-  const dispatch = useAppDispatch();
-  const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed,
-  );
+    pathname === href || (pathname === "/" && href === "/dashboard"); 
 
   return (
     <Link href={href} className="w-full">

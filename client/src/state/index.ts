@@ -7,7 +7,7 @@ export interface initialStateTypes {
 
 const initialState: initialStateTypes = {
   isSidebarCollapsed: false,
-  isDarkMode: window.matchMedia("(prefers-color-scheme: dark)").matches,
+  isDarkMode: false,
 };
 
 export const globalSlice = createSlice({
