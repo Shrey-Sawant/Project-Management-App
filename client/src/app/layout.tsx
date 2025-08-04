@@ -29,7 +29,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeInitializer/>
         <DashboardWrapper>{children}</DashboardWrapper>
       </body>
     </html>
