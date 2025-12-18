@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
+exports.getUserTasks = exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
 const task_model_1 = require("../models/task.model");
 const getTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { projectId } = req.query;
@@ -72,3 +72,19 @@ const updateTaskStatus = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.updateTaskStatus = updateTaskStatus;
+const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.query;
+    try {
+        const tasks = yield task_model_1.Task.find({
+            $or: [{ authorUserId: userId }, { assignedUserId: userId }],
+        }).select({
+            authorUserId: 1,
+            assignedUserId: 1,
+        });
+        res.json(tasks);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error retrieving Users Tasks" });
+    }
+});
+exports.getUserTasks = getUserTasks;

@@ -78,3 +78,22 @@ export const updateTaskStatus = async (
     res.status(500).json({ message: `Error updating Tasks: ${error.message}` });
   }
 };
+
+export const getUserTasks = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { userId } = req.query;
+  try {
+    const tasks = await Task.find({
+      $or: [{ authorUserId: userId }, { assignedUserId: userId }],
+    }).select({
+      authorUserId: 1,
+      assignedUserId: 1,
+    });
+
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving Users Tasks" });
+  }
+};

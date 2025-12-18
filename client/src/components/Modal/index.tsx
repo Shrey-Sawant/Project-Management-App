@@ -13,7 +13,7 @@ type Props = {
 const Modal = ({ children, isOpen, onClose, name }: Props) => {
   if (!isOpen) return null;
   return ReactDOM.createPortal(
-    <div className="bg-opacity-50 fixed inset-0 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600 p-4">
+    <div className="bg-opacity-50 fixed inset-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto bg-gray-600 p-4">
       <div className="dark:bg-dark-secondary w-full max-w-2xl rounded-lg bg-white p-4 shadow-lg">
         <Header
           name={name}
