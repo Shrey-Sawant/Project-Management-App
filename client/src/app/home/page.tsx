@@ -7,7 +7,7 @@ import {
   useGetProjectsQuery,
   useGetTasksQuery,
 } from "@/state/api";
-import React, { use } from "react";
+import React from "react";
 import { useAppSelector } from "../redux";
 import { GridColDef } from "@mui/x-data-grid";
 import Header from "@/components/Header";
