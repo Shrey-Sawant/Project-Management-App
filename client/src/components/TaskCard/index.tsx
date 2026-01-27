@@ -60,7 +60,7 @@ const TaskCard = ({ task }: Props) => {
         </p>
         <p className="text-gray-700 dark:text-gray-300">
           <strong>Assignee:</strong>{" "}
-          {task.assginee ? task.assginee.username : "Unknown"}
+         
         </p>
       </div>
     </div>

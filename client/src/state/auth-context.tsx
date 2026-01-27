@@ -12,7 +12,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   isLoading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, _password: string) => Promise<void>
   signup: (email: string, password: string, username: string) => Promise<void>
   logout: () => void
   isAuthenticated: boolean
