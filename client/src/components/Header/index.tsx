@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   name: string;
-  buttonComponent?: React.ComponentType;
+  buttonComponent?: React.ReactNode;
   isSmallText?: boolean;
 };
 
@@ -14,7 +14,7 @@ const Header = ({ name, buttonComponent, isSmallText }: Props) => {
       >
         {name}
       </h1>
-      {buttonComponent && React.createElement(buttonComponent)}
+      {buttonComponent}
     </div>
   );
 };
