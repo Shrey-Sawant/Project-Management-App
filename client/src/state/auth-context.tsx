@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     checkAuth()
   }, [])
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string) => {
     setIsLoading(true)
     try {
       await new Promise((resolve) => setTimeout(resolve, 500))
