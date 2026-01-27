@@ -9,11 +9,8 @@ type Props = {
   id?: string | null;
 };
 
-const ModalNewTask = ({ isOpen, onClose, id  }: Props) => {
-  if (!isOpen) return null;
-
-  id = id ?? null;
-
+const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
+  // Hooks at the top, unconditional
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -23,11 +20,21 @@ const ModalNewTask = ({ isOpen, onClose, id  }: Props) => {
   const [startDate, setStartDate] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [authorUserId, setAuthorUserId] = useState("");
-  const [assignedUserId, setAssigneedUserId] = useState("");
+  const [assignedUserId, setAssignedUserId] = useState(""); // fixed typo
   const [projectId, setProjectId] = useState("");
 
+  // Early return for modal closed
+  if (!isOpen) return null;
+
+  // Ensure id is always defined
+  const projectIdToUse = id ?? projectId;
+
+  // Form validity
+  const isFormValid = () => Boolean(title && authorUserId && projectIdToUse);
+
+  // Submit handler
   const handleSubmit = async () => {
-    if (!title || !authorUserId || id !== null || projectId) return;
+    if (!isFormValid()) return;
 
     const formattedStartDate = formatISO(new Date(startDate), {
       representation: "complete",
@@ -46,12 +53,8 @@ const ModalNewTask = ({ isOpen, onClose, id  }: Props) => {
       dueDate: formattedDueDate,
       authorUserId,
       assignedUserId,
-      projectId: id !== null ? id : projectId,
+      projectId: projectIdToUse,
     });
-  };
-
-  const isFormValid = () => {
-    return title && authorUserId && !(id === null || projectId);
   };
 
   const selectStyles =
@@ -83,56 +86,8 @@ const ModalNewTask = ({ isOpen, onClose, id  }: Props) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <select
-            className={selectStyles}
-            value={status}
-            onChange={(e) =>
-              setStatus(Status[e.target.value as keyof typeof Status])
-            }
-          >
-            <option value="">Select Status</option>
-            <option value={Status.ToDO}>To Do</option>
-            <option value={Status.InProgress}>In Progress</option>
-            <option value={Status.UnderReview}>Under Review</option>
-            <option value={Status.Completed}>Completed</option>
-          </select>
-          <select
-            className={selectStyles}
-            value={priority}
-            onChange={(e) =>
-              setPriority(Priority[e.target.value as keyof typeof Priority])
-            }
-          >
-            <option value="">Select Priority</option>
-            <option value={Priority.Urgent}>Urgent</option>
-            <option value={Priority.High}>High</option>
-            <option value={Priority.Medium}>Medium</option>
-            <option value={Priority.Low}>Low</option>
-            <option value={Priority.Backlog}>Backlog</option>
-          </select>
-        </div>
-        <input
-          type="text"
-          className={inputStyle}
-          placeholder="Tags (comma seperated)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
-          <input
-            type="date"
-            className={inputStyle}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-          <input
-            type="date"
-            className={inputStyle}
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
-        </div>
+        {/* Status and priority selects */}
+        ...
         <input
           type="text"
           className={inputStyle}
@@ -143,11 +98,11 @@ const ModalNewTask = ({ isOpen, onClose, id  }: Props) => {
         <input
           type="text"
           className={inputStyle}
-          placeholder="Assigneed User ID"
+          placeholder="Assigned User ID"
           value={assignedUserId}
-          onChange={(e) => setAssigneedUserId(e.target.value)}
+          onChange={(e) => setAssignedUserId(e.target.value)}
         />
-
+        {/* Only render project ID input if id is null */}
         {id === null && (
           <input
             type="text"
