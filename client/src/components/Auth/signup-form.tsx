@@ -45,16 +45,8 @@ export default function SignupForm() {
       console.log("Signup successful");
       router.push("/login");
     } catch (err: unknown) {
-      if (
-        err &&
-        typeof err === "object" &&
-        "data" in err &&
-        typeof (err as any).data?.message === "string"
-      ) {
-        setError((err as any).data.message);
-      } else {
-        setError("Signup failed");
-      }
+      const message = err instanceof Error ? err.message : "Signup failed";
+      setError(message);
     }
   };
 
