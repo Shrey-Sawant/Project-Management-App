@@ -58,12 +58,12 @@ const TaskColumn = ({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
     drop: (item: { id: string }) => moveTask(item.id, status),
-    collect: (monitor: any) => ({ isOver: !!monitor.isOver() }),
+    collect: (monitor) => ({ isOver: !!monitor.isOver() }),
   }));
 
   const taskCount = tasks.filter((task) => task.status === status).length;
 
-  const statusColor: any = {
+  const statusColor:  { [key: string]: string } = {
     "To Do": "#2563EB",
     "In Progress": "#059669",
     "Under Review": "#D97706",
@@ -123,7 +123,7 @@ const Task = ({ task }: TaskProps) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task._id },
-    collect: (monitor: any) => ({ isDragging: !!monitor.isDragging() }),
+    collect: (monitor) => ({ isDragging: !!monitor.isDragging() }),
   }));
 
   const taskTagsSplit = task.tags ? task.tags.split(",") : [];
