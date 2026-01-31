@@ -102,7 +102,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:
       process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api",
-    credentials: "include", // 🔐 needed for cookies later
+    credentials: "include", 
   }),
   tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   endpoints: (build) => ({

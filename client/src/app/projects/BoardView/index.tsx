@@ -204,11 +204,11 @@ const Task = ({ task }: TaskProps) => {
         {/* Users */}
         <div className="mt-3 flex items-center justify-between">
           <div className="flex -space-x-[6px] overflow-hidden">
-            {task.assginee && (
+            {task.assignee && (
               <Image
-                key={task.assginee?.userId}
-                src={`/${task.assginee?.profilePictureUrl!}`}
-                alt={task?.assginee?.userId || ""}
+                key={task.assignee?.id}
+                src={`/${task.assignee?.profilePictureUrl!}`}
+                alt={task?.assignee?.id || ""}
                 width={30}
                 height={30}
                 className="dark:border-dark-secondary h-8 w-8 rounded-full border-2 border-white object-cover"
@@ -216,9 +216,9 @@ const Task = ({ task }: TaskProps) => {
             )}
             {task.author && (
               <Image
-                key={task.author?.userId}
+                key={task.author?.id}
                 src={`/${task.author?.profilePictureUrl!}`}
-                alt={task?.author?.userId || ""}
+                alt={task?.author?.id || ""}
                 width={30}
                 height={30}
                 className="dark:border-dark-secondary h-8 w-8 rounded-full border-2 border-white object-cover"

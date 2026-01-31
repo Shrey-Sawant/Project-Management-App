@@ -1,13 +1,11 @@
 "use client"
 
 import { useAuth } from "@/state/auth-context"
-import { useRouter } from "next/navigation"
 import LoginPage from "./login/page"
 import HomePage from "./home/page"
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
 
   if (isLoading) {
     return (
