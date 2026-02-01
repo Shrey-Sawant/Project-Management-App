@@ -1,0 +1,81 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getUserTasks = exports.updateTaskStatus = exports.createTask = exports.getTasks = void 0;
+const task_model_1 = require("../models/task.model");
+const getTasks = async (req, res) => {
+    const { projectId } = req.query;
+    try {
+        const tasks = await task_model_1.Task.find({
+            projectId,
+            authorUserId: true,
+            assignedUserId: true,
+            comments: true,
+            attachment: true,
+        });
+        res.json(tasks);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error retrieving Tasks" });
+    }
+};
+exports.getTasks = getTasks;
+const createTask = async (req, res) => {
+    try {
+        const { title, description, status, priority, tags, startDate, dueDate, points, projectId, authorUserId, assignedUserId, } = req.body;
+        const task = await task_model_1.Task.create({
+            title,
+            description,
+            status,
+            priority,
+            projectId,
+            tags,
+            startDate,
+            dueDate,
+            points,
+            authorUserId,
+            assignedUserId,
+        });
+        res.status(201).json(task);
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ message: `Error creating task:${error.message}`, error });
+    }
+};
+exports.createTask = createTask;
+const updateTaskStatus = async (req, res) => {
+    console.log("Updating task:", req.params, "to status:", req.body);
+    const { taskId } = req.params;
+    const { status } = req.body;
+    if (!status) {
+        res.status(400).json({ message: "Status is required" });
+    }
+    try {
+        const updateTask = await task_model_1.Task.updateOne({
+            taskId,
+            status,
+        });
+        res.json(updateTask);
+    }
+    catch (error) {
+        res.status(500).json({ message: `Error updating Tasks: ${error.message}` });
+    }
+};
+exports.updateTaskStatus = updateTaskStatus;
+const getUserTasks = async (req, res) => {
+    const { userId } = req.query;
+    try {
+        const tasks = await task_model_1.Task.find({
+            $or: [{ authorUserId: userId }, { assignedUserId: userId }],
+        }).select({
+            authorUserId: 1,
+            assignedUserId: 1,
+        });
+        res.json(tasks);
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error retrieving Users Tasks" });
+    }
+};
+exports.getUserTasks = getUserTasks;
