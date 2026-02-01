@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Team } from "../models/team.model";
-import { User } from "../models/user.model";
+import { Team } from "../models/team.model.js";
+import { User } from "../models/user.model.js";
 
 export const getTeams = async (req: Request, res: Response): Promise<void> => {
   try {
