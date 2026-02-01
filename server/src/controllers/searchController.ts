@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Task } from "../models/task.model.js";
-import { Project } from "../models/project.model.js";
-import { User } from "../models/user.model.js";
+import { Task } from "../models/task.model";
+import { Project } from "../models/project.model";
+import { User } from "../models/user.model";
 
 export const search = async (req: Request, res: Response): Promise<void> => {
   const { query } = req.query;
