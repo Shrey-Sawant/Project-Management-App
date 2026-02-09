@@ -70,7 +70,7 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
   const { data: tasks, error, isLoading } = useGetTasksQuery({ projectId: id });
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred whiel fetching tasks </div>;
+  if (error) return <div>An error occurred while fetching tasks</div>;
 
   return (
     <div className="h-[540px] w-full px-4 pb-8 xl:px-6">

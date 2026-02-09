@@ -44,11 +44,11 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred whiel fetching tasks </div>;
+  if (error) return <div>An error occurred while fetching tasks</div>;
 
   return (
     <div className="px-4 xl:px-6">
-      <div className="felx flex-wrap items-center justify-between gap-2 py-5">
+      <div className="flex flex-wrap items-center justify-between gap-2 py-5">
         <h1 className="me-2 text-lg font-bold dark:text-white">
           Project Task Timeline
         </h1>
@@ -77,9 +77,9 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
           />
         </div>
         <div className="px-4 pb-5 pt-1 ">
-            <button className="flex items-center rounded bg-blue-primary px-3 py-2 text-whitehover:bg-blue-600" 
+            <button className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600" 
             onClick={()=>setIsModalNewTaskOpen(true)}>
-                Add NEw TAsk
+                Add New Task
             </button>
         </div>
       </div>

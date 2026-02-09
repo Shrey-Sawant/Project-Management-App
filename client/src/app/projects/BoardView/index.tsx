@@ -23,7 +23,7 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoradProps) => {
   };
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred whiel fetching tasks </div>;
+  if (error) return <div>An error occurred while fetching tasks</div>;
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -79,11 +79,11 @@ const TaskColumn = ({
     >
       <div className="mb-3 flex w-full">
         <div
-          className={`w-2 !bg-[${statusColor[status]}] rounded-s-lg`}
+          className={`w-2 rounded-s-lg`}
           style={{ background: statusColor[status] }}
-        >
-          <div className="dark:bg-dark-secondary flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4" />
-          <h3 className="-text-lg flex items-center font-semibold dark:text-white">
+        />
+        <div className="dark:bg-dark-secondary flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4">
+          <h3 className="text-lg flex items-center font-semibold dark:text-white">
             {status}{" "}
             <span
               className="dark:bg-dark-tertiary ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none"
@@ -92,8 +92,8 @@ const TaskColumn = ({
               {taskCount}
             </span>
           </h3>
-          <div className="felx items-center gap-1">
-            <button className="felx items-centerjustify-center h-6 w-5 dark:text-neutral-500">
+          <div className="flex items-center gap-1">
+            <button className="flex items-center justify-center h-6 w-5 dark:text-neutral-500">
               <EllipsisVertical size={26} />
             </button>
             <button
@@ -178,7 +178,7 @@ const Task = ({ task }: TaskProps) => {
               ))}
             </div>
           </div>
-          <button className="jsutify-center flex h-6 w-4 flex-shrink-0 items-center dark:text-neutral-500">
+          <button className="justify-center flex h-6 w-4 flex-shrink-0 items-center dark:text-neutral-500">
             <EllipsisVertical size={26} />
           </button>
         </div>
@@ -225,7 +225,7 @@ const Task = ({ task }: TaskProps) => {
               />
             )}
           </div>
-          <div className="felx items-center text-gray-500 dark:text-neutral-500">
+          <div className="flex items-center text-gray-500 dark:text-neutral-500">
             <MessageSquareMore size={20} />
             <span className="dark:text-neural-400 ml-1 text-sm">
               {numderOfComments}
