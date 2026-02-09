@@ -1,25 +1,19 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUsers = exports.login = exports.signup = void 0;
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const user_model_1 = require("../models/user.model");
-const signup = async (req, res) => {
+import bcrypt from "bcryptjs";
+import { User } from "../models/user.model.js";
+export const signup = async (req, res) => {
     try {
         const { username, email, password } = req.body;
         if (!email || !password) {
             res.status(400).json({ message: "Email and password are required" });
             return;
         }
-        const existingUser = await user_model_1.User.findOne({ email });
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
             res.status(409).json({ message: "User already exists" });
             return;
         }
-        const hashedPassword = await bcryptjs_1.default.hash(password, 10);
-        const user = await user_model_1.User.create({
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.create({
             username,
             email,
             password: hashedPassword,
@@ -37,21 +31,20 @@ const signup = async (req, res) => {
         res.status(500).json({ message: "Signup failed" });
     }
 };
-exports.signup = signup;
 /* ---------------- LOGIN ---------------- */
-const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
             res.status(400).json({ message: "Email and password are required" });
             return;
         }
-        const user = await user_model_1.User.findOne({ email }).select("+password");
+        const user = await User.findOne({ email }).select("+password");
         if (!user || !user.password) {
             res.status(401).json({ message: "Invalid credentials" });
             return;
         }
-        const isPasswordValid = await bcryptjs_1.default.compare(password, user.password // ✅ now guaranteed string
+        const isPasswordValid = await bcrypt.compare(password, user.password // ✅ now guaranteed string
         );
         if (!isPasswordValid) {
             res.status(401).json({ message: "Invalid credentials" });
@@ -70,15 +63,13 @@ const login = async (req, res) => {
         res.status(500).json({ message: "Login failed" });
     }
 };
-exports.login = login;
 /* ---------------- GET USERS ---------------- */
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
     try {
-        const users = await user_model_1.User.find().select("-password");
+        const users = await User.find().select("-password");
         res.status(200).json(users);
     }
     catch (error) {
         res.status(500).json({ message: "Error retrieving users" });
     }
 };
-exports.getUsers = getUsers;

@@ -4,11 +4,12 @@ import mongoose, { Connection } from "mongoose";
 export const connectDB = async (): Promise<Connection | void> => {
   try {
     if (!process.env.DATABASE_URL) {
-      throw new Error(" MONGODB_URI is not defined in environment variables");
+      throw new Error(" DATABASE_URL is not defined in environment variables");
     }
 
-    const uri = `${process.env.DATABASE_URL}/${process.env.DB_NAME}`;
-    const connectionInstance = await mongoose.connect(uri);
+    const connectionInstance = await mongoose.connect(process.env.DATABASE_URL, {
+      dbName: process.env.DB_NAME || "Project0",
+    });
     return connectionInstance.connection;
   } catch (error) {
     console.error(" MongoDB connection error:", (error as Error).message);

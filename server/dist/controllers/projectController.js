@@ -1,21 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProject = exports.getProjects = void 0;
-const project_model_1 = require("../models/project.model");
-const getProjects = async (req, res) => {
+import { Project } from "../models/project.model.js";
+export const getProjects = async (req, res) => {
     try {
-        const projects = await project_model_1.Project.find();
+        const projects = await Project.find();
         res.json(projects);
     }
     catch (error) {
         res.status(500).json({ message: "Error retrieving projects" });
     }
 };
-exports.getProjects = getProjects;
-const createProject = async (req, res) => {
+export const createProject = async (req, res) => {
     const { name, description, startDate, endDate } = req.body;
     try {
-        const newProject = await project_model_1.Project.create({
+        const newProject = await Project.create({
             name,
             description,
             startDate,
@@ -30,4 +26,3 @@ const createProject = async (req, res) => {
             .json({ message: `Error Creating a project: ${error.message}` });
     }
 };
-exports.createProject = createProject;

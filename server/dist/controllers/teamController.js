@@ -1,16 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTeams = void 0;
-const team_model_1 = require("../models/team.model");
-const user_model_1 = require("../models/user.model");
-const getTeams = async (req, res) => {
+import { Team } from "../models/team.model.js";
+import { User } from "../models/user.model.js";
+export const getTeams = async (req, res) => {
     try {
-        const teams = await team_model_1.Team.find();
+        const teams = await Team.find();
         const teamsWithUsernames = await Promise.all(teams.map(async (team) => {
-            const productOwner = await user_model_1.User.findById({
+            const productOwner = await User.findById({
                 _id: team.productOwnerId,
             }).select("username");
-            const projectManager = await user_model_1.User.findById({
+            const projectManager = await User.findById({
                 _id: team.projectManagerId,
             }).select("username");
             return {
@@ -25,4 +22,3 @@ const getTeams = async (req, res) => {
         res.status(500).json({ message: "Error retrieving *Users" });
     }
 };
-exports.getTeams = getTeams;

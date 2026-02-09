@@ -1,49 +1,43 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const body_parser_1 = __importDefault(require("body-parser"));
-const cors_1 = __importDefault(require("cors"));
-const helmet_1 = __importDefault(require("helmet"));
-const morgan_1 = __importDefault(require("morgan"));
-const index_1 = require("./db/index"); // .js for ES Modules after build
-// Import routes
-const projectRoutes_1 = __importDefault(require("./routes/projectRoutes"));
-const taskRoutes_1 = __importDefault(require("./routes/taskRoutes"));
-const searchRoutes_1 = __importDefault(require("./routes/searchRoutes"));
-const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
-const teamRoutes_1 = __importDefault(require("./routes/teamRoutes"));
-dotenv_1.default.config();
-const app = (0, express_1.default)();
+import express from "express";
+import dotenv from "dotenv";
+import bodyParser from "body-parser";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import { connectDB } from "./db/index.js";
+import projectRoutes from "./routes/projectRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
+import searchRoutes from "./routes/searchRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import teamRoutes from "./routes/teamRoutes.js";
+dotenv.config();
+const app = express();
 // ====================
 // Middlewares
 // ====================
-app.use(express_1.default.json());
-app.use((0, helmet_1.default)());
-app.use(helmet_1.default.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use((0, morgan_1.default)("common"));
-app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(morgan("common"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // CORS: allow all origins (change in production)
-app.use((0, cors_1.default)({ origin: "*", credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 // ====================
 // Routes
 // ====================
-app.use("/projects", projectRoutes_1.default);
-app.use("/tasks", taskRoutes_1.default);
-app.use("/search", searchRoutes_1.default);
-app.use("/users", userRoutes_1.default);
-app.use("/teams", teamRoutes_1.default);
+app.use("/projects", projectRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/search", searchRoutes);
+app.use("/users", userRoutes);
+app.use("/teams", teamRoutes);
 // ====================
 // Start server after DB connection
 // ====================
 const PORT = process.env.PORT || 3000;
 async function startServer() {
     try {
-        await (0, index_1.connectDB)(); // Connect to MongoDB or any DB
+        await connectDB(); // Connect to MongoDB or any DB
         console.log("Database connected successfully");
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
