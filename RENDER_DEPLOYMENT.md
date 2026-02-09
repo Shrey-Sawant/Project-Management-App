@@ -1,15 +1,35 @@
 # Render Deployment Guide - Project Management App Backend
 
-## 🚀 Quick Setup
+## 🚨 CRITICAL FIX FOR "Cannot find module" ERROR
 
-### Step 1: Create New Web Service on Render
+**The Problem:** Render was running `node src/index.ts` instead of `node dist/index.js`
 
-1. Go to [Render Dashboard](https://dashboard.render.com/)
-2. Click **"New +"** → **"Web Service"**
-3. Connect your GitHub repository
-4. Select the repository: `Project-Management-App`
+**The Solution:** Use the `render.yaml` configuration file (already created in your project root)
 
-### Step 2: Configure Build Settings
+## 🚀 Deployment Methods
+
+### Method 1: Using render.yaml (RECOMMENDED)
+
+1. **Commit the render.yaml file:**
+   ```bash
+   git add render.yaml build.sh start.sh
+   git commit -m "Add Render configuration"
+   git push
+   ```
+
+2. **In Render Dashboard:**
+   - Click **"New +"** → **"Blueprint"**
+   - Connect your repository
+   - Render will automatically detect `render.yaml`
+   - Click **"Apply"**
+
+3. **Add Environment Variables** in Render dashboard:
+   - `DATABASE_URL` = Your MongoDB connection string
+   - `DB_NAME` = `Project0`
+
+### Method 2: Manual Configuration (Alternative)
+
+If you prefer manual setup:
 
 **Root Directory:**
 ```
@@ -21,32 +41,19 @@ server
 npm install && npm run build
 ```
 
-**Start Command:**
+**Start Command:** ⚠️ **THIS IS CRITICAL**
 ```bash
 npm start
 ```
 
+**DO NOT USE:** ❌
+- `node src/index.ts`
+- `node index.ts`
+- `ts-node src/index.ts`
+
 **Environment:**
 - Select: **Node**
-
-### Step 3: Environment Variables
-
-Add these in the Render dashboard under "Environment":
-
-| Key | Value | Example |
-|-----|-------|---------|
-| `DATABASE_URL` | Your MongoDB connection string | `mongodb+srv://user:pass@cluster.mongodb.net/?appName=ProjectManagement` |
-| `DB_NAME` | Your database name | `Project0` |
-| `PORT` | Leave empty (Render sets this automatically) | - |
-| `NODE_ENV` | `production` | `production` |
-
-### Step 4: Advanced Settings (Optional)
-
-**Auto-Deploy:**
-- ✅ Enable "Auto-Deploy" for automatic deployments on git push
-
-**Health Check Path:**
-- Leave as default `/` or create a health endpoint
+- Node Version: **18** or higher
 
 ## 🔧 What Was Fixed
 
