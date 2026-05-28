@@ -1,12 +1,12 @@
 process.on('uncaughtException', (err) => {
-    console.error('Uncaught Exception:', err);
+    console.error('[uncaughtException]', err);
     process.exit(1);
 });
-process.on('unhandledRejection', (reason) => {
-    console.error('Unhandled Rejection:', reason);
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('[unhandledRejection]', reason);
     process.exit(1);
 });
-console.log('Starting server...');
+console.log('[1] Starting server...');
 import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -19,6 +19,7 @@ import taskRoutes from "./routes/taskRoutes.js";
 import searchRoutes from "./routes/searchRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import teamRoutes from "./routes/teamRoutes.js";
+console.log('[2] Imports loaded');
 dotenv.config();
 const app = express();
 // ====================
@@ -30,8 +31,25 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// CORS: allow all origins (change in production)
-app.use(cors({ origin: "*", credentials: true }));
+// CORS configuration supporting credentials and Vercel deployments
+const allowedOrigins = [
+    process.env.CLIENT_URL || "http://localhost:3000",
+    "https://project-management-app-phi-indol.vercel.app",
+];
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin) || /^https:\/\/project-management-.*\.vercel\.app$/.test(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS: " + origin));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.options("*", cors()); // handle preflight for all routes
 // ====================
 // Routes
 // ====================
@@ -46,8 +64,9 @@ app.use("/teams", teamRoutes);
 const PORT = process.env.PORT || 3000;
 async function startServer() {
     try {
+        console.log('[3] Connecting to MongoDB...');
         await connectDB();
-        console.log("Database connected successfully");
+        console.log('[5] Starting HTTP server on port', PORT);
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         });
