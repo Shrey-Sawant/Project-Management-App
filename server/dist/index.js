@@ -37,7 +37,7 @@ app.use("/teams", teamRoutes);
 const PORT = process.env.PORT || 3000;
 async function startServer() {
     try {
-        await connectDB(); // Connect to MongoDB or any DB
+        await connectDB();
         console.log("Database connected successfully");
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
@@ -45,7 +45,7 @@ async function startServer() {
     }
     catch (err) {
         console.error("Failed to connect to database:", err);
-        process.exit(1); // Exit if DB fails
+        process.exit(1);
     }
 }
 startServer();

@@ -22,4 +22,4 @@ echo "✅ Build artifacts verified"
 echo "🌐 Starting Node.js server..."
 
 # Start the server
-npm start
+node dist/index.js
