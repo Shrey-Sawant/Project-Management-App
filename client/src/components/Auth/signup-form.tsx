@@ -41,9 +41,20 @@ export default function SignupForm() {
         password: formData.password,
       }).unwrap();
 
+      // 1. Save token
       localStorage.setItem("token", res.token);
+
+      // 2. Save user object (needed by AuthProvider to set isAuthenticated)
+      const userToSave = res.user || {
+        email: formData.email,
+        username: formData.username,
+        id: "user_" + Date.now(),
+      };
+      localStorage.setItem("user", JSON.stringify(userToSave));
+
       console.log("Signup successful");
-      router.push("/login");
+      // 3. Redirect/reload to home/dashboard
+      window.location.href = "/";
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Signup failed";
       setError(message);

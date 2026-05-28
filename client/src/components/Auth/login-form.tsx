@@ -54,7 +54,7 @@ export default function LoginForm() {
       // 4. Force a hard reload
       // This triggers the AuthProvider to re-run its useEffect,
       // find the "user" in localStorage, and render the HomePage.
-      router.push("/");
+      window.location.href = "/";
     } catch (err: unknown) {
       console.error("Login failed:", err);
       setError( "Invalid credentials");
