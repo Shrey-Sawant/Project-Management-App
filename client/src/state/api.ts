@@ -8,6 +8,7 @@ export interface Project {
   description?: string
   startDate?: string
   endDate?: string
+  wipLimits?: Record<string, number>
 }
 
 export enum Priority {
@@ -54,6 +55,27 @@ export interface AuthResponse {
 
 /* ---------- TASKS ---------- */
 
+export interface Subtask {
+  _id: string
+  title: string
+  completed: boolean
+}
+
+export interface Activity {
+  _id: string
+  action: string
+  user: string
+  timestamp: string
+}
+
+export interface Comment {
+  _id: string
+  userId: string
+  user?: User
+  text: string
+  createdAt: string;
+}
+
 export interface Attachment {
   _id: string
   fileUrl: string
@@ -80,6 +102,8 @@ export interface Task {
   assignee?: User
   comments?: Comment[]
   attachment?: Attachment[]
+  subtasks?: Subtask[]
+  activity?: Activity[]
 }
 
 export interface SearchResults {

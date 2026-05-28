@@ -70,10 +70,10 @@ const ModalNewTask = ({ isOpen, onClose, id }: Props) => {
   // Styles
   // -------------------------------
   const selectStyles =
-    "mb-4 block w-full rounded border border-gray-300 px-3 py-2 dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white mb-4 block w-full rounded px-3 py-2 focus:outline-none";
 
   const inputStyle =
-    "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
+    "bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white w-full rounded p-2 shadow-sm focus:outline-none";
 
   // -------------------------------
   // JSX
