@@ -39,8 +39,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // CORS: allow all origins (change in production)
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); 
+    if (/https:\/\/project-management.*\.vercel\.app$/.test(origin) || origin === "http://localhost:3000") {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
+app.options("*", cors()); // ← this line MUST be before your routes
 // ====================
 // Routes
 // ====================
