@@ -25,31 +25,16 @@ const app = express();
 // ====================
 // Middlewares
 // ====================
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// CORS configuration supporting credentials and Vercel deployments
-const allowedOrigins = [
-    process.env.CLIENT_URL || "http://localhost:3000",
-    "https://project-management-app-phi-indol.vercel.app",
-];
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin) || /^https:\/\/project-management-.*\.vercel\.app$/.test(origin)) {
-            callback(null, true);
-        }
-        else {
-            callback(new Error("Not allowed by CORS: " + origin));
-        }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-}));
-app.options("*", cors()); // handle preflight for all routes
 // ====================
 // Routes
 // ====================

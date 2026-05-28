@@ -32,6 +32,10 @@ const app = express();
 // ====================
 // Middlewares
 // ====================
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
